@@ -1,0 +1,389 @@
+:root {
+  --bg-main: #060c14;
+  --bg-panel: #111a25;
+  --bg-panel-2: #172332;
+  --text-main: #e7eef5;
+  --text-muted: #90a5ba;
+  --edge: #344a60;
+  --active-node: #27d17f;
+  --failed-node: #ef5350;
+  --route: #3ea6ff;
+  --packet: #ffd54f;
+  --ok: #34c779;
+  --warn: #ffb74d;
+  --err: #ef5350;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 10%, #18314d 0%, var(--bg-main) 45%, #04080f 100%);
+  color: var(--text-main);
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.app-shell {
+  width: min(1280px, 100%);
+  margin: 0 auto;
+  padding: 12px;
+}
+
+.app-title {
+  margin-bottom: 10px;
+}
+
+.app-title h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.network-panel,
+.control-panel,
+.log-panel {
+  background: linear-gradient(160deg, var(--bg-panel) 0%, var(--bg-panel-2) 100%);
+  border: 1px solid #233446;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3);
+}
+
+.network-panel {
+  order: 1;
+}
+
+.control-panel {
+  order: 2;
+}
+
+.log-panel {
+  order: 3;
+}
+
+#network-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 58vh;
+  background: radial-gradient(circle at 50% 20%, #11263d 0%, #0b141f 65%);
+  border-radius: 10px;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+label {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+select,
+button {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #2b3f54;
+  background: #0d1620;
+  color: var(--text-main);
+  font: inherit;
+  padding: 10px;
+}
+
+button {
+  cursor: pointer;
+  background: linear-gradient(120deg, #24588a 0%, #1b3e62 100%);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+button.secondary {
+  background: linear-gradient(120deg, #40556a 0%, #2b3f52 100%);
+}
+
+button.danger {
+  background: linear-gradient(120deg, #b83d3d 0%, #8f2f2f 100%);
+}
+
+.button-row {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.status {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 0.86rem;
+  border: 1px solid #2e4459;
+  background: #0d1824;
+}
+
+.status.success {
+  border-color: rgba(52, 199, 121, 0.4);
+  color: var(--ok);
+}
+
+.status.warning {
+  border-color: rgba(255, 183, 77, 0.45);
+  color: var(--warn);
+}
+
+.status.error {
+  border-color: rgba(239, 83, 80, 0.5);
+  color: var(--err);
+}
+
+.route-metrics {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #27394d;
+  border-radius: 10px;
+  background: #0b141f;
+  display: grid;
+  gap: 6px;
+  font-size: 0.86rem;
+}
+
+.route-metrics span {
+  color: var(--text-muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 6px;
+  border-bottom: 1px solid #2a3d52;
+}
+
+th {
+  color: var(--text-muted);
+}
+
+tbody tr.unreachable td {
+  color: #99a7b5;
+  opacity: 0.6;
+}
+
+#log-details {
+  margin-top: 10px;
+  background: #0b141f;
+  border: 1px solid #27394d;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+#log-details summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+#event-log {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  color: #ced8e2;
+}
+
+#event-log li {
+  margin-bottom: 6px;
+}
+
+.edge-line {
+  stroke: var(--edge);
+  stroke-width: 2;
+  transition: stroke 240ms ease, stroke-width 240ms ease;
+}
+
+.edge-line.route-line {
+  stroke: var(--route);
+  stroke-width: 4;
+  stroke-dasharray: 6 4;
+  animation: routePulse 1.25s linear infinite;
+}
+
+.weight-text {
+  fill: #6f8498;
+  font-size: 8px;
+  text-anchor: middle;
+}
+
+.node-circle {
+  stroke: #082335;
+  stroke-width: 2.6;
+  fill: var(--active-node);
+  transition: fill 250ms ease, transform 250ms ease;
+}
+
+.node-circle.failed {
+  fill: var(--failed-node);
+}
+
+.node-circle.route-node {
+  stroke: var(--route);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 4px rgba(62, 166, 255, 0.9));
+}
+
+.node-id {
+  fill: #08121d;
+  font-size: 10px;
+  text-anchor: middle;
+  font-weight: 700;
+}
+
+.node-signal {
+  fill: #9ec4e9;
+  font-size: 8px;
+  text-anchor: middle;
+}
+
+.packet {
+  fill: var(--packet);
+  filter: drop-shadow(0 0 6px rgba(255, 213, 79, 1));
+}
+
+@keyframes routePulse {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    width: min(1440px, 100%);
+    padding: 20px;
+  }
+
+  .app-title h1 {
+    font-size: 1.65rem;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px minmax(560px, 1fr) 360px;
+    grid-template-areas: "controls network logs";
+    align-items: start;
+    gap: 16px;
+  }
+
+  .network-panel,
+  .control-panel,
+  .log-panel {
+    padding: 16px;
+  }
+
+  .control-panel {
+    grid-area: controls;
+    order: 0;
+    min-height: 700px;
+  }
+
+  .network-panel {
+    grid-area: network;
+    order: 0;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+  }
+
+  .log-panel {
+    grid-area: logs;
+    order: 0;
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #network-svg {
+    max-height: 680px;
+  }
+
+  #log-details {
+    flex: 1;
+  }
+
+  .button-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1280px) {
+  .app-shell {
+    width: min(1760px, 100%);
+    padding: 24px 28px;
+  }
+
+  .app-title h1 {
+    font-size: 2rem;
+  }
+
+  .layout {
+    grid-template-columns: 360px minmax(820px, 1fr) 430px;
+    gap: 18px;
+  }
+
+  .network-panel,
+  .control-panel,
+  .log-panel {
+    padding: 20px;
+  }
+
+  .control-panel,
+  .network-panel,
+  .log-panel {
+    min-height: 800px;
+  }
+
+  #network-svg {
+    max-height: 780px;
+  }
+
+  select,
+  button {
+    font-size: 1.02rem;
+    padding: 12px;
+  }
+
+  table {
+    font-size: 0.92rem;
+  }
+
+  #event-log {
+    font-size: 0.9rem;
+    max-height: 430px;
+  }
+}

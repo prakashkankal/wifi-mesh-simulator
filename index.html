@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WMN Self-Healing Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-title">
+        <h1>WiFi Mesh Network Self-Healing Simulator</h1>
+      </header>
+
+      <main class="layout">
+        <section class="network-panel" aria-label="Network Visualization">
+          <svg
+            id="network-svg"
+            viewBox="0 0 360 260"
+            role="img"
+            aria-label="Mesh network topology"
+          >
+            <g id="edge-layer"></g>
+            <g id="node-layer"></g>
+            <g id="packet-layer"></g>
+          </svg>
+        </section>
+
+        <section class="control-panel" aria-label="Controls">
+          <h2>Controls</h2>
+
+          <label for="source-select">Source</label>
+          <select id="source-select"></select>
+
+          <label for="destination-select">Destination</label>
+          <select id="destination-select"></select>
+
+          <label for="fail-node-select">Fail Node</label>
+          <select id="fail-node-select"></select>
+
+          <div class="button-row">
+            <button id="send-packet-btn" type="button">Send Packet</button>
+            <button id="fail-node-btn" type="button" class="danger">Fail Node</button>
+            <button id="reset-network-btn" type="button" class="secondary">Reset Network</button>
+          </div>
+
+          <div id="status-message" class="status info">Ready</div>
+
+          <div class="route-metrics">
+            <div><span>Path:</span> <strong id="path-display">-</strong></div>
+            <div><span>Hops:</span> <strong id="hop-count">0</strong></div>
+            <div><span>Total Cost:</span> <strong id="total-cost">0</strong></div>
+          </div>
+        </section>
+
+        <section class="log-panel" aria-label="Routing and logs">
+          <h2>Routing Table</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Node</th>
+                  <th>Cost</th>
+                  <th>Prev</th>
+                  <th>Hops</th>
+                </tr>
+              </thead>
+              <tbody id="routing-table-body"></tbody>
+            </table>
+          </div>
+
+          <details id="log-details" open>
+            <summary>Packet & Event Log</summary>
+            <ul id="event-log"></ul>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
